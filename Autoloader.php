@@ -1,0 +1,90 @@
+<?php
+/**
+ * Contains definitions of Autoloader class
+ * 
+ * This file contains one class implementation
+ * named Autoloader class.
+ *
+ * @category TirpSorter/EulerPathProblem
+ * @package TripSorter
+ * @version v 1.0
+ */
+
+/**
+ * Contains Autoloader class
+ *
+ * This Class contains mutiple functions that includes the paths of  library classes 
+ * in project. This class uses 
+ * spl_autoload_register function.
+ * 
+ * @package TripSorter
+ * @author Muhammad Raza <razachohan@gmail.com>
+ * @category TirpSorter/EulerPathProblem
+ * @version v 1.0
+ */
+class Autoloader {
+     /**
+     *
+     * Gets the name of the class and checks that class in the 'lib' 
+     * folder. If file exists in that folder then it includes that file in 
+     * project.
+     *
+     * @access private
+     * 
+     * @param string   $class 'Name of class'
+     *         
+     */
+    function autoloaderLib($class)
+    {
+        $path = realpath('library/' . $class . '.php');
+        if (is_readable($path)) {
+            include $path;
+        }
+    }
+     /**
+     *
+     * Gets the name of the class and checks that class in the 'models' 
+     * folder. If file exists in that folder then it includes that file in 
+     * project.
+     *
+     * @access private
+     * 
+     * @param string   $class 'Name of class'
+     *         
+     */
+    function autoloaderModels($class)
+    {
+        $path = realpath('models/' . $class . '.php');
+        if (is_readable($path)) {
+            include $path;
+        }
+    }
+    /**
+     *
+     * Registers all the above mentioned functions using spl_autoload_register
+     * funtion.
+     * 
+     * @access private
+     * 
+     */
+    private function register_autoload()
+    {
+        spl_autoload_register('Autoloader::autoloaderLib');
+        spl_autoload_register('Autoloader::autoloaderModels');
+    }
+     /**
+     *
+     * Creates the object of Autoload class and calls the register_autoload
+     * funtion to register all the autoloading functions.
+     * 
+     * @static 
+      * 
+     * @access public
+     * 
+     */
+    public static function run()
+    {
+     $autoloadFiles=new Autoloader();
+     $autoloadFiles->register_autoload();
+    }
+}
