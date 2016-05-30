@@ -1,17 +1,79 @@
 <?php
-
+/**
+ * Contains Test Cases for boarding Class Model
+ * 
+ *
+ * @category TirpSorter/EulerPathProblem
+ * @package TripSorter/Test
+ * @version v 1.0
+ */
 require_once('./models/BoardingPass.php');
-
+/**
+ * Contains Definition of a Boarding Pass Test Class
+ *
+ * @category TirpSorter/EulerPathProblem
+ * @package TripSorter/Test
+ * @version v 1.0
+ */
 class BoardingPassTest extends PHPUnit_Framework_TestCase
 {
-	public $boardingPass;
+	/**
+   * @var boarding pass object
+   */
+  public $boardingPass;
+  /**
+   * function used to set the Boarding pass test class attributes
+   *
+   * @return void
+   */
 	public function setUp()
 	{
-		$boardingPass = new BoardingPass("TestSource", "TestDestination");
+		$this->boardingPass = new BoardingPass("Test Source", "Test Destination", "Test Transportation Type", 
+											   "Test Seat Info", "Test Transport Number");
 	}
-  	public function testDataArr()
-  	{
-    	$data = [];
-  	  	$this->assertTrue(is_array($data));
-  	}
+	/**
+   * Test Case for Boarding Pass Source Location
+   *
+   * @return void
+   */
+	public function testBoardingPassSource()
+  {
+  	$this->assertTrue($this->boardingPass->source == "Test Source");
+  }
+	/**
+   * Test Case for Boarding Pass Destination Location
+   *
+   * @return void
+   */
+	public function testBoardingPassDestination()
+	{
+		$this->assertTrue($this->boardingPass->destination == "Test Destination");
+	}
+	/**
+   * Test Case for Boarding Pass Type of transportation
+   *
+   * @return void
+   */
+	public function testBoardingPassTransportationType()
+	{
+		$this->assertTrue($this->boardingPass->transportationType == "Test Transportation Type");
+	}
+	/**
+   * Test Case for Boarding Seat Info
+   *
+   * @return void
+   */
+	public function testBoardingPassSeatInfo()
+	{
+		$this->assertTrue($this->boardingPass->seatInfo == "Test Seat Info");
+	}
+	/**
+   * Test Case Boarding Pass Transportation Number
+   *
+   * @return void
+   */
+	public function testBoardingPassTransportationNumber()
+	{
+		$this->assertTrue($this->boardingPass->transportationNumber == "Test Transport Number");
+	}
 }

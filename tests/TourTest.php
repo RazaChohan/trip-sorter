@@ -1,16 +1,79 @@
 <?php
-
+/**
+ * Contains Test Cases for Tour Class Model
+ * 
+ *
+ * @category TirpSorter/EulerPathProblem
+ * @package TripSorter/Test
+ * @version v 1.0
+ */
 require_once('./models/Tour.php');
-
+/**
+ * Contains Definition of a Tour Test Class
+ *
+ * @category TirpSorter/EulerPathProblem
+ * @package TripSorter/Test
+ * @version v 1.0
+ */
 class TourTest extends PHPUnit_Framework_TestCase
 {
+	/**
+     * @var tour object
+     */
 	public $tour;
+	/**
+   	 * function used to set the tour test class attributes
+   	 *
+   	 * @return void
+     */
 	public function setUp()
 	{
-		$tour = new Tour();
+		$this->tour = new Tour();
+		$boardingPasses = [   new BoardingPass('Karachi', 'Islamabad', 'plane', 'B-22', 'PK 228'),
+                              new BoardingPass('Islamabad', 'Lahore', 'bus', 'b', 'LXZ 20012'),  
+                              new BoardingPass('Gilgit', 'Gujranwala', 'plan', 'A-12', 'PK 776'),  
+                              new BoardingPass('Lahore', 'Gilgit', 'train', 'NN-32', 'Night Coach'),  
+                              new BoardingPass('Gujranwala', 'Rahim Yar Khan', 'bus', 'C-19', 'LXJ 3663'),  
+                           ]; 
+        
+		$this->tour->overrideBoardingPasses($boardingPasses);
 	}
-	public function testTour()
+	/**
+   	 * function used to test the tour source locations
+   	 *
+   	 * @return void
+     */
+	public function testTourSourceLocations()
 	{
-		$this->assertTrue(true);
+		$expectedSources = ['Karachi', 'Islamabad', 'Gilgit', 'Lahore', 'Gujranwala']; 
+		$this->assertTrue(count(array_diff($this->tour->sources, $expectedSources)) == 0);
+	}
+	/**
+   	 * function used to test the tour destination locations
+   	 *
+   	 * @return void
+     */
+	public function testTourDestinationLocations()
+	{
+		$expectedDestinations = ['Rahim Yar Khan', 'Islamabad', 'Gilgit', 'Lahore', 'Gujranwala']; 
+		$this->assertTrue(count(array_diff($this->tour->destinations, $expectedDestinations)) == 0);
+	}
+	/**
+   	 * function used to test the tour starting location
+   	 *
+   	 * @return void
+     */
+	public function testTourStartingPoint()
+	{
+		$this->assertTrue($this->tour->tourStartingPoint == "Karachi");
+	}
+	/**
+   	 * function used to test the tour ending location
+   	 *
+   	 * @return void
+     */
+	public function testTourEndingPoint()
+	{
+		$this->assertTrue($this->tour->tourEndingPoint == "Rahim Yar Khan");
 	}
 }

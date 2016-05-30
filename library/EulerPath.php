@@ -23,7 +23,7 @@ class EulerPath implements IEulerPath {
 	public function __construct($tour)
 	{
 		$this->tour = $tour;	
-		if(!empty($this->tour->boardingPasses))
+        if(!empty($this->tour->boardingPasses))
 		{
 			$this->findEulerPath();	
 		}

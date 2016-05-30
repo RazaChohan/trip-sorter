@@ -50,12 +50,13 @@ class Tour {
     public function __construct()
 	{
 		// new BoardingPass(source, Destination, Transportation Type, Seat Info, Transportation Number)
-		$this->boardingPasses = [ 	new BoardingPass('Karachi', 'Islamabad', 'plane', 'B-22', 'PK 228'),
+		$this->boardingPasses = [
+                                    new BoardingPass('Gujranwala', 'Rahim Yar Khan', 'bus', 'C-19', 'LXJ 3663'),  
+                                	new BoardingPass('Gilgit', 'Gujranwala', 'plan', 'A-12', 'PK 776'),  
+                                    new BoardingPass('Karachi', 'Islamabad', 'plane', 'B-22', 'PK 228'),
 					 				new BoardingPass('Islamabad', 'Lahore', 'bus', 'b', 'LXZ 20012'),  
-                                    new BoardingPass('Gilgit', 'Gujranwala', 'plan', 'A-12', 'PK 776'),  
                                     new BoardingPass('Lahore', 'Gilgit', 'train', 'NN-32', 'Night Coach'),  
-					 				new BoardingPass('Gujranwala', 'Rahim Yar Khan', 'bus', 'C-19', 'LXJ 3663'),  
-						  		]; 
+					 			]; 
 		$this->sources = [];
 		$this->destinations = [];	
         $this->sortedTourBoardingPasses = [];			  		
@@ -121,10 +122,15 @@ class Tour {
         echo "---------- Welcome to 'Trip Sorter' -------------".PHP_EOL;
         echo "-------------------------------------------------".PHP_EOL;
         $counter = 1;
-        foreach ($this->sortedTourBoardingPasses as $key => $val) {
-            echo "(" . $counter . ")" . " " . "Take " . $val->transportationType . " from " . 
-                 ucfirst($val->source) . " to " . ucfirst($val->destination) .
-                ". Your seat number is: " . $val->seatInfo . PHP_EOL;
+        foreach ($this->sortedTourBoardingPasses as $boardingPass) {
+            $transportationNumber = "";
+            if($boardingPass->transportationNumber != null)
+            {
+                $transportationNumber = " (" . $boardingPass->transportationNumber . ")"; 
+            }
+            echo "(" . $counter . ")" . " " . "Take " . $boardingPass->transportationType . $transportationNumber . " from " . 
+                 ucfirst($boardingPass->source) . " to " . ucfirst($boardingPass->destination) .
+                ". Your seat number is: " . $boardingPass->seatInfo . PHP_EOL;
             $counter++;    
         }    
     }
@@ -137,6 +143,30 @@ class Tour {
     public function deleteBoardingPassWithKey($key)
     {
         unset($this->boardingPasses[$key]);   
+    }
+    /**
+     * override the boarding pass array and recalculate the attributes
+     *
+     * @param int 'Key for which boarding pass needs to be deleted'
+     * @return void
+     */
+    public function overrideBoardingPasses($boardingPasses)
+    {
+        $this->boardingPasses = [   new BoardingPass('Karachi', 'Islamabad', 'plane', 'B-22', 'PK 228'),
+                                    new BoardingPass('Islamabad', 'Lahore', 'bus', 'b', 'LXZ 20012'),  
+                                    new BoardingPass('Gilgit', 'Gujranwala', 'plan', 'A-12', 'PK 776'),  
+                                    new BoardingPass('Lahore', 'Gilgit', 'train', 'NN-32', 'Night Coach'),  
+                                    new BoardingPass('Gujranwala', 'Rahim Yar Khan', 'bus', 'C-19', 'LXJ 3663'),  
+                                ]; 
+        $this->sources = [];
+        $this->destinations = [];   
+        $this->sortedTourBoardingPasses = [];                   
+        // Get all sources and and destinations of tour
+        if(!empty($this->boardingPasses))
+        {                 
+            $this->getAllSourcesAndDestinations();
+            $this->getStartingAndEndingPoints();                  
+        }
     }
     			
 }
